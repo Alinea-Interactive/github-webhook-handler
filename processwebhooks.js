@@ -18,6 +18,7 @@ module.exports = {
         const GHUrl = url.parse(event.payload.repository.forks_url);        
     
         var options = {
+            auth     : process.env.GITHUB_OAUTH,
             host     : GHUrl.hostname,
             path     : GHUrl.pathname,
             headers  : {
@@ -42,10 +43,16 @@ module.exports = {
             res.on('data', (d) => { sForkResponse += d; });
             
             res.on('end', (d) => {
-                //console.log(sForkResponse);
+                console.log(sForkResponse);
                 var oForks = JSON.parse(sForkResponse),
                     re     = new RegExp('^'+process.env.GITHUB_USERNAME+'\/.*$', 'i');
 
+                if( oForks.message ){
+                    console.error("Failed: %s", options.path);
+                    console.error(oForks);
+                    return;
+                }
+                
                 //for each fork find the one that has 'our' username in it
                 for( var aForkIndex in oForks ){
                   
@@ -73,6 +80,12 @@ module.exports = {
                 
                                 var oBranches = JSON.parse(sBranchResponse),
                                     found_branch = false;
+
+                                if( oBranches.message ){
+                                    console.error("Failed: %s", options.path);
+                                    console.error(oBranches);
+                                    return;
+                                }
 
                                 //loop branches                              
                                 for( var iBranchIndex in oBranches ) {
