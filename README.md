@@ -6,6 +6,8 @@ Extended to create auto follow branches up upstream repos.
 E.g. if commit is pushed to repo branch: repo_with_webhook/dev_branch then
 if one of your repos is a fork then the push will be automatically synced to your-forked-repo/autofollow_dev_branch
 
+In order to enable autosyncing the autofollow-XXXX branch needs to be created manually
+
 [![NPM](https://nodei.co/npm/github-webhook.png?downloads=true&downloadRank=true)](https://nodei.co/npm/github-webhook/)
 [![NPM](https://nodei.co/npm-dl/github-webhook.png?months=6&height=3)](https://nodei.co/npm/github-webhook/)
 
